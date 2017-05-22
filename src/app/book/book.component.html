@@ -1,0 +1,15 @@
+<md-card>
+  <md-card-header>
+    <img md-card-avatar src="{{book.cover}}">
+    <md-card-title>{{book.title}}</md-card-title>
+    <md-card-subtitle>{{book.price | currency: 'eur': true}}</md-card-subtitle>
+  </md-card-header>
+  <md-card-content>
+    <p *ngFor="let syn of book.synopsis">
+      {{syn}}
+    </p>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button (click)="addToCart();"><md-icon>add_shopping_cart</md-icon></button>
+  </md-card-actions>
+</md-card>

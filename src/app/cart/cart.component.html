@@ -1,0 +1,6 @@
+<md-card *ngIf="total">Total : {{total | currency:'eur':true}}</md-card>
+<md-card *ngIf="!total">Total : {{0 | currency:'eur':true}}</md-card>
+
+<md-card *ngFor="let cartItem of cartItems">
+  {{cartItem.title}} (x{{cartItem.quantity}})
+</md-card>
