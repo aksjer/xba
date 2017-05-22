@@ -1,1 +1,8 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
+.flex-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

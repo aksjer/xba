@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MdButtonModule, MdMenuModule, MdCardModule, MdIconModule, MdInputModule, MdAutocompleteModule } from '@angular/material';
+import { MdButtonModule, MdMenuModule, MdCardModule, MdIconModule, MdInputModule, MdAutocompleteModule, MdSnackBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -29,6 +29,7 @@ import { CartService } from './cart.service';
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,
+    FormsModule,
     RouterModule.forRoot(ROUTES),
     BrowserAnimationsModule,
     MdButtonModule,
@@ -36,7 +37,8 @@ import { CartService } from './cart.service';
     MdCardModule,
     MdIconModule,
     MdInputModule,
-    MdAutocompleteModule
+    MdAutocompleteModule,
+    MdSnackBarModule
   ],
   providers: [BookService, CartService],
   bootstrap: [AppComponent]

@@ -1,6 +1,10 @@
-<md-card *ngIf="total">Total : {{total | currency:'eur':true}}</md-card>
-<md-card *ngIf="!total">Total : {{0 | currency:'eur':true}}</md-card>
+<md-card>Total : {{total | async | currency:'eur':true}}</md-card>
 
-<md-card *ngFor="let cartItem of cartItems">
-  {{cartItem.title}} (x{{cartItem.quantity}})
+<md-card *ngFor="let cartItem of cartItems | async">
+  <div class="flex-container">
+    <button md-mini-fab color="warn" (click)="delete(cartItem.isbn);"><md-icon>delete</md-icon></button> {{cartItem.title}}
+    <md-input-container>
+      <input mdInput type="number" placeholder="Quantity" [(ngModel)]="cartItem.quantity" min="0" (change)="quantity(cartItem)">
+    </md-input-container>
+  </div>
 </md-card>
