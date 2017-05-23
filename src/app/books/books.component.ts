@@ -14,8 +14,8 @@ export class BooksComponent implements OnInit {
 
   constructor(private bookService: BookService) { }
 
-  ngOnInit() {
-    this.books = this.bookService.filteredBooks$;
+  ngOnInit(): void {
+    this.books = this.bookService.books$;
   }
 
 }

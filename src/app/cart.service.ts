@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Book } from './models/book.model';
-
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { environment } from '../environments/environment';
@@ -8,7 +7,6 @@ import { CartItem } from './models/cart-item.model';
 import { Offer } from './models/offer.model';
 import { Result } from './models/result.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class CartService {
@@ -38,12 +36,12 @@ export class CartService {
       .map(res => res.json() as Result);
   }
 
-  delete(isbn: string) {
+  delete(isbn: string): void {
     this.cart = this.cart.filter(e => e.isbn !== isbn);
     this.update();
   }
 
-  quantity(cartItem: CartItem) {
+  quantity(cartItem: CartItem): void {
     if (cartItem.quantity) {
       this.cart.find(e => e.isbn === cartItem.isbn).quantity = cartItem.quantity;
     } else {
@@ -52,12 +50,12 @@ export class CartService {
     this.update();
   }
 
-  update() {
+  update(): void {
     this.cart$.next(this.cart);
     this.totalCost();
   }
 
-  totalCost() {
+  totalCost(): void {
     const total = this.cart.reduce((a, b) => a + (b.price * b.quantity), 0);
     const isbns: string = this.cart.reduce((a, b) => a + `${b.isbn},`, '');
     if (isbns) {

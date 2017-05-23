@@ -12,21 +12,21 @@ import { Observable } from 'rxjs/Observable';
 })
 export class CartComponent implements OnInit {
 
-  cartItems: Observable<CartItem[]>;
-  total: Observable<number>;
+  private cartItems: Observable<CartItem[]>;
+  private total: Observable<number>;
 
   constructor(private cartService: CartService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.cartItems = this.cartService.cart$;
     this.total = this.cartService.total$;
   }
 
-  delete(isbn: string) {
+  delete(isbn: string): void {
     this.cartService.delete(isbn);
   }
 
-  quantity(cartItem: CartItem) {
+  quantity(cartItem: CartItem): void {
     this.cartService.quantity(cartItem);
   }
 

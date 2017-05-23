@@ -1,23 +1,16 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, } from '@angular/core';
 import { BookService } from '../book.service';
-import { Book } from '../models/book.model';
-
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
   constructor(private bookService: BookService) { }
 
-  ngOnInit() { }
-
-  search(term: string) {
+  search(term: string): void {
     this.bookService.search(term);
   }
 

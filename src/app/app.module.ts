@@ -2,7 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MdButtonModule, MdMenuModule, MdCardModule, MdIconModule, MdInputModule, MdAutocompleteModule, MdSnackBarModule } from '@angular/material';
+import {
+  MdButtonModule, MdMenuModule, MdCardModule,
+  MdIconModule, MdInputModule, MdAutocompleteModule, MdSnackBarModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 

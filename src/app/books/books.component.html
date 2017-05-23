@@ -1,4 +1,4 @@
-<app-search (searchEvent)="searchTerm($event);"></app-search>
+<app-search></app-search>
 <div *ngFor="let book of books | async">
   <app-book [book]="book"></app-book>
 </div>
