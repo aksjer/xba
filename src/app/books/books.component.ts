@@ -10,20 +10,12 @@ import { Book } from '../models/book.model';
 })
 export class BooksComponent implements OnInit {
 
-  baseBooks: Book[];
-  books: Book[];
+  books: Observable<Book[]>;
 
   constructor(private bookService: BookService) { }
 
   ngOnInit() {
-    this.bookService.get().subscribe(books => {
-      this.baseBooks = books;
-      this.books = books;
-    });
-  }
-
-  searchTerm(term: string) {
-    this.books = this.baseBooks.filter(s => s.title.toLowerCase().includes(term.toLowerCase()));
+    this.books = this.bookService.filteredBooks$;
   }
 
 }

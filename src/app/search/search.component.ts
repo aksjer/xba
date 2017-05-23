@@ -13,19 +13,12 @@ import 'rxjs/add/operator/map';
 })
 export class SearchComponent implements OnInit {
 
-  bookCtrl: FormControl;
-  filteredBooks: any;
-  books: Book[];
-  @Output() searchEvent: EventEmitter<string> = new EventEmitter();
-
   constructor(private bookService: BookService) { }
 
-  ngOnInit() {
-    this.bookService.get().subscribe(books => this.books = books);
-  }
+  ngOnInit() { }
 
   search(term: string) {
-    this.searchEvent.emit(term);
+    this.bookService.search(term);
   }
 
 }
