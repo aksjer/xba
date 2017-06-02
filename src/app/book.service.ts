@@ -15,10 +15,12 @@ export class BookService {
   private apiUrl: string = environment.apiUrl;
   books$ = new ReplaySubject<Book[]>(1);
   searchFlux$ = new BehaviorSubject<string>(undefined);
+  lastSearchTerm$ = new ReplaySubject<string>(1);
 
   constructor(private http: Http) {
     this.searchFlux$
-      .debounceTime(300)
+      .debounceTime(500)
+      .do(term => this.lastSearchTerm$.next(term))
       .subscribe(term => term ? this.search(term) : this.get());
   }
 

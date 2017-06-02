@@ -6,12 +6,18 @@ import { BookService } from '../book.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+
+  private searchTerm: string;
 
   constructor(private bookService: BookService) { }
 
-  search(term: string): void {
-    this.bookService.searchFlux$.next(term);
+  search(): void {
+    this.bookService.searchFlux$.next(this.searchTerm);
+  }
+
+  ngOnInit(): void {
+    this.bookService.lastSearchTerm$.subscribe(term => this.searchTerm = term);
   }
 
 

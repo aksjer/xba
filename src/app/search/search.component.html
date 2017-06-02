@@ -1,4 +1,4 @@
 <md-input-container>
-  <input mdInput placeholder="Book" #term (keyup)="search(term.value)">
+  <input mdInput placeholder="Book" #term (keyup)="search()" [(ngModel)]="searchTerm" >
 </md-input-container>
 
