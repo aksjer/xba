@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BookService } from '../book.service';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { Book } from '../models/book.model';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css']
 })
-export class BooksComponent implements OnInit, AfterViewInit {
+export class BooksComponent implements OnInit {
 
   books: Observable<Book[]>;
 
@@ -17,10 +17,6 @@ export class BooksComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.books = this.bookService.books$;
-  }
-
-  ngAfterViewInit(): void {
-    this.bookService.searchFlux$.next(null);
   }
 
 }

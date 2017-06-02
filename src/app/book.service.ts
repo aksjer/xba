@@ -6,13 +6,15 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class BookService {
 
   private apiUrl: string = environment.apiUrl;
-  books$: Subject<Book[]> = new Subject<Book[]>();
-  searchFlux$ = new Subject<string>();
+  books$ = new ReplaySubject<Book[]>(1);
+  searchFlux$ = new BehaviorSubject<string>(undefined);
 
   constructor(private http: Http) {
     this.searchFlux$
