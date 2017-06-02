@@ -6,20 +6,17 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/distinctUntilChanged';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class BookService {
 
   private apiUrl: string = environment.apiUrl;
   books$: Subject<Book[]> = new Subject<Book[]>();
-  searchFlux$ = new BehaviorSubject<string>(undefined);
+  searchFlux$ = new Subject<string>();
 
   constructor(private http: Http) {
     this.searchFlux$
       .debounceTime(300)
-      .distinctUntilChanged()
       .subscribe(term => term ? this.search(term) : this.get());
   }
 
