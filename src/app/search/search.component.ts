@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BookService } from '../book.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-search',
@@ -9,6 +10,7 @@ import { BookService } from '../book.service';
 export class SearchComponent implements OnInit {
 
   private searchTerm: string;
+  private sub: Subscription;
 
   constructor(private bookService: BookService) { }
 
@@ -17,7 +19,13 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bookService.lastSearchTerm$.subscribe(term => this.searchTerm = term);
+    this.sub = this.bookService.lastSearchTerm$.subscribe(term => this.searchTerm = term);
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
 
