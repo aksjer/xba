@@ -1,3 +1,4 @@
 <md-input-container>
-  <input mdInput placeholder="Book" (keyup)="search(term.value)" #term>
+  <input mdInput placeholder="Book" #term (keyup)="search(term.value)">
 </md-input-container>
+
