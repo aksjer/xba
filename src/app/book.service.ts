@@ -23,14 +23,14 @@ export class BookService {
       .subscribe(term => term ? this.search(term) : this.get());
   }
 
-  get(term?: string): void {
+  get(): void {
     this.http
       .get(this.apiUrl)
       .map(res => (res.json() as Book[]))
       .subscribe(books => this.books$.next(books));
   }
 
-  search(term): void {
+  search(term: string): void {
     this.http
       .get(this.apiUrl)
       .map(res => (res.json() as Book[]).filter(b => b.title.toLowerCase().includes(term.toLowerCase())))
