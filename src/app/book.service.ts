@@ -37,9 +37,4 @@ export class BookService {
       .subscribe(books => this.books$.next(books));
   }
 
-  // search(term: string): void {
-  //   term ? this.get().subscribe(books => this.books$.next(books.filter(b => b.title.toLowerCase().includes(term.toLowerCase()))))
-  //     : this.get().subscribe(books => this.books$.next(books));
-  // }
-
 }
