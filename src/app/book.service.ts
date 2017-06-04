@@ -24,7 +24,9 @@ export class BookService {
   private get(term?: string): void {
     this.http
       .get(this.apiUrl)
-      .map((res: Response) => term ? (res.json() as Book[]).filter((book: Book) => book.title.toLowerCase().includes(term.toLowerCase())) : (res.json() as Book[]))
+      .map((res: Response) =>
+        term ? (res.json() as Book[]).filter((book: Book) => book.title.toLowerCase().includes(term.toLowerCase()))
+          : (res.json() as Book[]))
       .subscribe((books: Book[]) => this.books$.next(books));
   }
 
