@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { CartItem } from '../models/cart-item.model';
 import { environment } from '../../environments/environment';
 import { Book } from '../models/book.model';
-import { Result } from '../models/result.model';
+import { CommercialOffer } from '../models/commercialOffer.model';
 import { Offer } from '../models/offer.model';
 
 @Injectable()
@@ -42,10 +42,10 @@ export class CartService {
     this.update();
   }
 
-  private commercialOffers(isbns): Observable<Result> {
+  private commercialOffers(isbns): Observable<CommercialOffer> {
     return this.http
       .get(`${this.apiUrl}/${isbns}/commercialOffers`)
-      .map((res: Response) => res.json() as Result);
+      .map((res: Response) => res.json() as CommercialOffer);
   }
 
   private update(): void {
@@ -58,31 +58,8 @@ export class CartService {
     const isbns: string = this.cart.reduce((a: string, b: CartItem) => a + `${b.isbn},`, '');
     isbns ?
       this.commercialOffers(isbns.slice(0, isbns.length - 1))
-        .subscribe((result: Result) => this.total$.next(this.bestPrice(total, result)))
+        .subscribe((commercialOffer: CommercialOffer) => this.total$.next(new CommercialOffer(commercialOffer).bestPrice(total)))
       : this.total$.next(0);
-
-  }
-
-  private bestPrice(total: number, result: Result): number {
-    let min = this.offerSwitch(total, result.offers[0]);
-    for (let i = 1; i < result.offers.length; i++) {
-      const minCost = this.offerSwitch(total, result.offers[i]);
-      if (minCost < min) {
-        min = minCost;
-      }
-    }
-    return min;
-  }
-
-  private offerSwitch(total: number, offer: Offer): number {
-    switch (offer.type) {
-      case 'percentage':
-        return total * ((100 - offer.value) / 100);
-      case 'minus':
-        return total - offer.value;
-      case 'slice':
-        return total - (Math.floor(total / offer.sliceValue) * offer.value);
-    }
   }
 
 }
