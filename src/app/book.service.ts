@@ -1,41 +1,31 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Http } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+
 import { Book } from './models/book.model';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class BookService {
 
+  public books$: BehaviorSubject<Book[]> = new BehaviorSubject<Book[]>(undefined);
+  public searchTerm$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+  public lastSearchTerm$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+
   private apiUrl: string = environment.apiUrl;
-  books$ = new ReplaySubject<Book[]>(1);
-  searchFlux$ = new BehaviorSubject<string>(undefined);
-  lastSearchTerm$ = new ReplaySubject<string>(1);
 
   constructor(private http: Http) {
-    this.searchFlux$
+    this.searchTerm$
       .debounceTime(500)
-      .do(term => this.lastSearchTerm$.next(term))
-      .subscribe(term => term ? this.search(term) : this.get());
+      .do((term: string) => this.lastSearchTerm$.next(term))
+      .subscribe((term: string) => this.get(term));
   }
 
-  get(): void {
+  private get(term?: string): void {
     this.http
       .get(this.apiUrl)
-      .map(res => (res.json() as Book[]))
-      .subscribe(books => this.books$.next(books));
-  }
-
-  search(term: string): void {
-    this.http
-      .get(this.apiUrl)
-      .map(res => (res.json() as Book[]).filter(b => b.title.toLowerCase().includes(term.toLowerCase())))
-      .subscribe(books => this.books$.next(books));
+      .map((res: Response) => term ? (res.json() as Book[]).filter((book: Book) => book.title.toLowerCase().includes(term.toLowerCase())) : (res.json() as Book[]))
+      .subscribe((books: Book[]) => this.books$.next(books));
   }
 
 }
