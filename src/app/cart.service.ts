@@ -22,10 +22,24 @@ export class CartService {
   constructor(private http: Http) { }
 
   public add(book: Book): void {
-    if (this.cart.some(e => e.isbn === book.isbn)) {
-      this.cart.find(e => e.isbn === book.isbn).quantity++;
+    if (this.cart.some((cartItem: CartItem) => cartItem.isbn === book.isbn)) {
+      this.cart.find((cartItem: CartItem) => cartItem.isbn === book.isbn).quantity++;
     } else {
       this.cart.push({ title: book.title, isbn: book.isbn, price: book.price, quantity: 1 });
+    }
+    this.update();
+  }
+
+  public delete(isbn: string): void {
+    this.cart = this.cart.filter((cartItem: CartItem) => cartItem.isbn !== isbn);
+    this.update();
+  }
+
+  public quantity(cartItem: CartItem): void {
+    if (cartItem.quantity) {
+      this.cart.find((cartItem: CartItem) => cartItem.isbn === cartItem.isbn).quantity = cartItem.quantity;
+    } else {
+      this.cart = this.cart.filter((cartItem: CartItem) => cartItem.isbn !== cartItem.isbn);
     }
     this.update();
   }
@@ -34,20 +48,6 @@ export class CartService {
     return this.http
       .get(`${this.apiUrl}/${isbns}/commercialOffers`)
       .map((res: Response) => res.json() as Result);
-  }
-
-  public delete(isbn: string): void {
-    this.cart = this.cart.filter(e => e.isbn !== isbn);
-    this.update();
-  }
-
-  public quantity(cartItem: CartItem): void {
-    if (cartItem.quantity) {
-      this.cart.find(e => e.isbn === cartItem.isbn).quantity = cartItem.quantity;
-    } else {
-      this.cart = this.cart.filter(e => e.isbn !== cartItem.isbn);
-    }
-    this.update();
   }
 
   private update(): void {
