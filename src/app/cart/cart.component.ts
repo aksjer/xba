@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../book.service';
-import { CartService } from '../cart.service';
 import { CartItem } from '../models/cart-item.model';
 
 import { Observable } from 'rxjs/Observable';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-cart',

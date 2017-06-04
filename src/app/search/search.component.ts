@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BookService } from '../book.service';
 import { Subscription } from 'rxjs/Subscription';
+import { BookService } from '../services/book.service';
 
 @Component({
   selector: 'app-search',

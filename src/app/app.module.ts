@@ -10,14 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { BookService } from './book.service';
 import { MenuComponent } from './menu/menu.component';
 import { BooksComponent } from './books/books.component';
 import { BookComponent } from './book/book.component';
 import { CartComponent } from './cart/cart.component';
 import { ROUTES } from './app.routes';
 import { SearchComponent } from './search/search.component';
-import { CartService } from './cart.service';
+import { BookService } from './services/book.service';
+import { CartService } from './services/cart.service';
 
 @NgModule({
   declarations: [

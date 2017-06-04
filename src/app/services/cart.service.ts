@@ -3,12 +3,10 @@ import { Http, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-import { environment } from '../environments/environment';
-import { Book } from './models/book.model';
-import { CartItem } from './models/cart-item.model';
-import { Offer } from './models/offer.model';
-import { Result } from './models/result.model';
+import { CartItem } from '../models/cart-item.model';
+import { environment } from '../../environments/environment';
+import { Book } from '../models/book.model';
+import { Result } from '../models/result.model';
 
 @Injectable()
 export class CartService {

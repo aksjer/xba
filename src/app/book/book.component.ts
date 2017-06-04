@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Book } from '../models/book.model';
-import { CartService } from '../cart.service';
 import { MdSnackBar } from '@angular/material';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-book',
