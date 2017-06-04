@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { CartItem } from '../models/cart-item.model';
 import { environment } from '../../environments/environment';
 import { Book } from '../models/book.model';
 import { Result } from '../models/result.model';
+import { Offer } from '../models/offer.model';
 
 @Injectable()
 export class CartService {
@@ -35,9 +35,9 @@ export class CartService {
 
   public quantity(cartItem: CartItem): void {
     if (cartItem.quantity) {
-      this.cart.find((cartItem: CartItem) => cartItem.isbn === cartItem.isbn).quantity = cartItem.quantity;
+      this.cart.find((cartI: CartItem) => cartI.isbn === cartItem.isbn).quantity = cartItem.quantity;
     } else {
-      this.cart = this.cart.filter((cartItem: CartItem) => cartItem.isbn !== cartItem.isbn);
+      this.cart = this.cart.filter((cartI: CartItem) => cartI.isbn !== cartItem.isbn);
     }
     this.update();
   }
@@ -58,27 +58,31 @@ export class CartService {
     const isbns: string = this.cart.reduce((a: string, b: CartItem) => a + `${b.isbn},`, '');
     isbns ?
       this.commercialOffers(isbns.slice(0, isbns.length - 1))
-        .subscribe((result: Result) => this.total$.next(this.bestReduction(total, result)))
+        .subscribe((result: Result) => this.total$.next(this.bestPrice(total, result)))
       : this.total$.next(0);
 
   }
 
-  private bestReduction(total: number, result: Result): number {
-    const min: number[] = [];
-    for (const reduction of result.offers) {
-      switch (reduction.type) {
-        case 'percentage':
-          min.push(total * ((100 - reduction.value) / 100));
-          break;
-        case 'minus':
-          min.push(total - reduction.value);
-          break;
-        case 'slice':
-          min.push(total - (Math.floor(total / reduction.sliceValue) * reduction.value));
-          break;
+  private bestPrice(total: number, result: Result): number {
+    let min = this.offerSwitch(total, result.offers[0]);
+    for (let i = 1; i < result.offers.length; i++) {
+      const minCost = this.offerSwitch(total, result.offers[i]);
+      if (minCost < min) {
+        min = minCost;
       }
     }
-    return Math.min.apply(null, min);
+    return min;
+  }
+
+  private offerSwitch(total: number, offer: Offer): number {
+    switch (offer.type) {
+      case 'percentage':
+        return total * ((100 - offer.value) / 100);
+      case 'minus':
+        return total - offer.value;
+      case 'slice':
+        return total - (Math.floor(total / offer.sliceValue) * offer.value);
+    }
   }
 
 }
